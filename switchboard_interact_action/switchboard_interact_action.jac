@@ -138,7 +138,6 @@ node SwitchboardInteractAction(InteractAction) {
             }
         }
 
-        available_agents = self.get_switchboard_agents(switchboard_agent_id=self.get_agent().id);
 
         return {
             "page": page,
@@ -149,14 +148,19 @@ node SwitchboardInteractAction(InteractAction) {
             "has_next": pagination_info.get("has_next", False),
             "user_subscription": user_subscription,
             "sessions": sessions,
-            "agent_name": available_agents
+            "agent_name": self.available_agents
         };
     }
 
-    def get_switchboard_agents(switchboard_agent_id:str) -> list {
+    def get_switchboard_agents() -> list {
         agent_node = self.get_agent();
-        self.available_agents = (agent_node spawn _get_switchboard_agents(switchboard_agent_id=agent_node.id)).agents;
-        return self.available_agents;
+        available_agents = (agent_node spawn _get_switchboard_agents(switchboard_agent_id=agent_node.id)).agents;
+        return available_agents;
+    }
+
+    def update_available_agents(available_agents:list) -> bool {
+        self.available_agents = available_agents;
+        return True;
     }
 }
 

@@ -28,6 +28,58 @@ def render(router: StreamlitRouter, agent_id: str, action_id: str, info: dict) -
 
     with st.expander("Subscriptions", True):
 
+        switchboard_agents = call_api(
+            endpoint="action/walker/switchboard_interact_action/get_switchboard_agents",
+            json_data={"agent_id": agent_id},
+        )
+        if switchboard_agents and switchboard_agents.status_code == 200:
+            switchboard_agents = get_reports_payload(switchboard_agents)
+
+            agent_labels = [
+                f"{agent['name']} — {agent['description']}"
+                for agent in switchboard_agents
+            ]
+            if st.session_state[model_key]["available_agents"]:
+                default_labels = [
+                    f"{a['name']} — {a['description']}"
+                    for a in st.session_state[model_key]["available_agents"]
+                ]
+            else:
+                default_labels = []
+
+            # Show multi-select
+            selected_agents = st.multiselect(
+                "Select switchboard agents:",
+                options=agent_labels,
+                default=default_labels,
+            )
+
+            # Convert selection back to dict objects
+            selected_dicts = [
+                agent
+                for agent in switchboard_agents
+                if f"{agent['name']} — {agent['description']}" in selected_agents
+            ]
+
+            if st.button(
+                "Update Switchboard Agents",
+                key=f"{model_key}_btn_update_switchboard_agents",
+            ):
+
+                available_agent_result = call_api(
+                    endpoint="action/walker/switchboard_interact_action/update_switchboard_available_agents",
+                    json_data={
+                        "agent_id": agent_id,
+                        "available_agents": selected_dicts,
+                    },
+                )
+                if available_agent_result and available_agent_result.status_code == 200:
+                    st.success("Agents updated successfully!")
+                else:
+                    st.error("Failed to update agents.")
+
+    with st.expander("Subscriptions", True):
+
         if "current_page" not in st.session_state:
             st.session_state.current_page = 1
         if "per_page" not in st.session_state:

@@ -158,6 +158,10 @@ node SwitchboardInteractAction(InteractAction) {
         return available_agents;
     }
 
+    def get_available_agents() -> list {
+        return self.available_agents;
+    }
+
     def update_available_agents(available_agents:list) -> bool {
         self.available_agents = available_agents;
         return True;

@@ -37,9 +37,10 @@ node SwitchboardInteractAction(InteractAction) {
             data['switchboard_agent_id'] = self.get_agent().id;
 
             target_frame_node = target_agent_node.get_memory().get_frame(agent_id = target_agent_id, session_id = visitor.session_id, force_session=True);
+            target_frame_node.data_set(key="switchboard_agent_id", value=self.get_agent().id);
 
-            if(visitor.channel == "whatsapp") {
-                target_frame_node.set_user_name(visitor.data.get("sender_name"));
+            if(visitor.channel == "whatsapp" and visitor.data.get("content", {}).get("sender_name")) {
+                target_frame_node.set_user_name(visitor.data.get("content", {}).get("sender_name"));
             }
 
             message = (target_agent_node spawn interact(

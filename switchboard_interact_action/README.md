@@ -25,4 +25,4 @@
 
 - **Jivas:** ~2.1.0
 - **Actions:**
-  - jivas/persona_interact_action: ~0.1.0
+  - jivas/persona_interact_action: ~0.2.1

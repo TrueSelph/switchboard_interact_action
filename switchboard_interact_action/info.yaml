@@ -2,7 +2,7 @@ package:
   name: jivas/switchboard_interact_action
   author: V75 Inc.
   archetype: SwitchboardInteractAction
-  version: 0.1.2
+  version: 0.2.0
   meta:
     title: Switchboard Interact Action
     description: Manages and Routes users to their subscribed agents, ensuring smooth transitions and consistent communication.
@@ -11,9 +11,7 @@ package:
   config:
     singleton: true
     order:
-      before: jivas/persona_interact_action # Ensure it runs before the persona interact action
       weight: -10 # Example: High priority (lower number means earlier execution)
+      before: jivas/persona_interact_action # Ensure it runs before the persona interact action
   dependencies:
     jivas: ~2.1.0
-    actions:
-      jivas/persona_interact_action: ~0.1.0

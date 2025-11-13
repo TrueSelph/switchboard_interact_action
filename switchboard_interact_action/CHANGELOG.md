@@ -6,3 +6,6 @@
 
 ## 0.1.2
 - Set user name to frame node of the routed agent
+
+## 0.2.0
+- Updated to use persona_interact_action version 0.2.1

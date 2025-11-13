@@ -15,5 +15,3 @@ package:
       before: jivas/persona_interact_action # Ensure it runs before the persona interact action
   dependencies:
     jivas: ~2.1.0
-    actions:
-      jivas/persona_interact_action: ~0.2.1
